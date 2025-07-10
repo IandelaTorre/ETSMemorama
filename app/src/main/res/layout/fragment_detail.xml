@@ -19,9 +19,11 @@
         android:text="@string/select_theme" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spThemes"
+        android:layout_marginHorizontal="32dp"
+        android:paddingVertical="16dp"
         app:layout_constraintTop_toBottomOf="@+id/tvDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tvSize"
@@ -39,9 +41,11 @@
         android:text="@string/select_size" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spSize"
+        android:layout_marginHorizontal="32dp"
+        android:paddingVertical="16dp"
         app:layout_constraintTop_toBottomOf="@+id/tvSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btnGoGame"
