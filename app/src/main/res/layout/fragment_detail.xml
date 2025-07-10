@@ -10,21 +10,51 @@
         android:id="@+id/tvDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btnGoGame"
+        app:layout_constraintBottom_toTopOf="@+id/spThemes"
         app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"
-        android:text="DetailFragment" />
+        android:text="@string/select_theme" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spThemes"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tvSize"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/spThemes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/spSize"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        android:text="@string/select_size" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spSize"
+        app:layout_constraintTop_toBottomOf="@+id/tvSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoGame"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnGoGame"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetail"
+        app:layout_constraintTop_toBottomOf="@+id/spSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Aceptar" />
+        android:text="@string/accept" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
