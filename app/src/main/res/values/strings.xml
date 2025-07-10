@@ -6,4 +6,13 @@
     <string name="accept">Aceptar</string>
     <string name="select_theme">Selecciona el tema</string>
     <string name="select_size">Selecciona el tamaño</string>
+    <string-array name="array_theme">
+        <item>Navegadores</item>
+        <item>Carros</item>
+        <item>Bebidas</item>
+    </string-array>
+    <string-array name="array_size">
+        <item>4x4</item>
+        <item>6x5</item>
+    </string-array>
 </resources>
