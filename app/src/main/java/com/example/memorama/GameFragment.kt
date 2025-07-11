@@ -7,13 +7,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memorama.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var adapter: Adapter
+    private lateinit var cards: List<Item>
+    private var selectedIndex1: Int? = null
+    private var selectedIndex2: Int? = null
+    private var movements = 0
     private var secondsElapsed = 0
+
     private val handler = Handler(Looper.getMainLooper())
     private val timerRunnable = object : Runnable {
         override fun run() {
@@ -28,32 +37,83 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGameBinding.inflate(inflater, container, false)
-        // this creates a horizontal layout Manager
-        binding.recyclerview.layoutManager = GridLayoutManager(context, 4)
-
-        // ArrayList of class ItemsViewModel
-        val data = ArrayList<Item>()
-
-        for (i in 1..20) {
-            data.add(Item(R.drawable.ic_card_face_down, "Item $i"))
-        }
-
-        // This will pass the ArrayList to our Adapter
-        val adapter = Adapter(data)
-
-        // Setting the Adapter with the recyclerview
-        binding.recyclerview.adapter = adapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val gameSize = GameFragmentArgs.fromBundle(requireArguments()).size
         val gameTheme = GameFragmentArgs.fromBundle(requireArguments()).theme
-        binding.tvTime.text = gameSize
-        binding.tvMovements.text = gameTheme
+
+        // Determinar tamaño del tablero
+        val (columns, rows) = when (gameSize) {
+            "4x4" -> 4 to 4
+            "4x5" -> 4 to 5
+            else -> 4 to 4
+        }
+
+        val totalCards = columns * rows
+        val themeImages = getThemeCards(gameTheme).shuffled()
+        val neededPairs = totalCards / 2
+
+        val selectedImages = themeImages.take(neededPairs)
+        cards = (selectedImages + selectedImages)
+            .mapIndexed { index, resId -> Item(resId, "card_$index") }
+            .shuffled()
+
+        adapter = Adapter(cards) { position ->
+            val card = cards[position]
+
+            if (card.isFlipped || card.isMatched || selectedIndex2 != null) return@Adapter
+
+            card.isFlipped = true
+            adapter.notifyItemChanged(position)
+
+            if (selectedIndex1 == null) {
+                selectedIndex1 = position
+            } else {
+                selectedIndex2 = position
+                movements++
+                updateMovements()
+
+                val firstCard = cards[selectedIndex1!!]
+                val secondCard = cards[selectedIndex2!!]
+
+                if (firstCard.imageResId == secondCard.imageResId) {
+                    firstCard.isMatched = true
+                    secondCard.isMatched = true
+                    selectedIndex1 = null
+                    selectedIndex2 = null
+                } else {
+                    handler.postDelayed({
+                        firstCard.isFlipped = false
+                        secondCard.isFlipped = false
+                        adapter.notifyItemChanged(selectedIndex1!!)
+                        adapter.notifyItemChanged(selectedIndex2!!)
+                        selectedIndex1 = null
+                        selectedIndex2 = null
+                    }, 1000)
+                }
+            }
+        }
+
+        binding.recyclerview.layoutManager = GridLayoutManager(requireContext(), columns)
+        binding.recyclerview.adapter = adapter
+
+        updateMovements()
         handler.post(timerRunnable)
 
+        // Detener temporizador al salir
+        viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                handler.removeCallbacks(timerRunnable)
+            }
+        })
+    }
+
+    private fun updateMovements() {
+        binding.tvMovements.text = "Movimientos: $movements"
     }
 
     private fun getThemeCards(theme: String): List<Int> {
@@ -65,18 +125,9 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun getGridDimensions(size: String): Pair<Int, Int> {
-        return when (size) {
-            "4x4" -> 4 to 4
-            "4x5" -> 4 to 5
-            else -> 4 to 4
-        }
-    }
-
     override fun onDestroyView() {
-        handler.removeCallbacks(timerRunnable)
         super.onDestroyView()
+        handler.removeCallbacks(timerRunnable)
         _binding = null
     }
-
 }

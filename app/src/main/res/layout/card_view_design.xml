@@ -14,7 +14,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/imageview"
+            android:id="@+id/ivCard"
             android:layout_height="70dp"
             android:layout_width="70dp"
             android:src="@drawable/ic_card_face_down"
