@@ -27,9 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
             // sets the image to the imageview from our itemHolder class
             holder.imageView.setImageResource(item.image)
 
-            // sets the text to the textview from our itemHolder class
-            holder.textView.text = item.text
-
         }
 
         // return the number of the items in the list
@@ -40,6 +37,5 @@ import androidx.recyclerview.widget.RecyclerView
         // Holds the views for adding it to image and text
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val imageView: ImageView = itemView.findViewById(R.id.imageview)
-            val textView: TextView = itemView.findViewById(R.id.textView)
         }
     }

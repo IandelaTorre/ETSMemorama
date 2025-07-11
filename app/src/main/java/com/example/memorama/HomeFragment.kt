@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.memorama.databinding.FragmentHomeBinding
 
@@ -27,7 +29,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnGoDetails.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+            if(binding.etName.text.toString().isEmpty()) {
+                Toast.makeText(context, "@string/enter_name", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val homeFragmentDirections = HomeFragmentDirections.actionHomeFragmentToDetailFragment(binding.etName.text.toString())
+            Navigation.findNavController(view).navigate(homeFragmentDirections)
         }
         super.onViewCreated(view, savedInstanceState)
     }

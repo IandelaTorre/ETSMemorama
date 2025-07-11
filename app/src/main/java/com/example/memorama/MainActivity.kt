@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // Establecer el título dinámico
-        supportActionBar?.title = "Bienvenido, $userName"
+        supportActionBar?.title = "Bienvenido"
 
         // Toggle del Drawer
         toggle = ActionBarDrawerToggle(
