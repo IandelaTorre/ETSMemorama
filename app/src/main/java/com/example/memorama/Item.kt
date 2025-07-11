@@ -1,6 +1,8 @@
 package com.example.memorama
 
 data class Item(
-    val image: Int,
-    val text: String
+    val imageResId: Int,
+    val identifier: String,
+    val isFlipped: Boolean = false,
+    val isMatched: Boolean = false
 )

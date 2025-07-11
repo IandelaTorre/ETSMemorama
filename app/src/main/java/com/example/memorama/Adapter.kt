@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
             val item = list[position]
 
             // sets the image to the imageview from our itemHolder class
-            holder.imageView.setImageResource(item.image)
+            holder.imageView.setImageResource(item.imageResId)
 
         }
 
