@@ -8,6 +8,8 @@
     <string name="select_size">Selecciona el tamaño</string>
     <string name="time">Tiempo:</string>
     <string name="movements">Movimientos:</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
     <string-array name="array_theme">
         <item>Navegadores</item>
         <item>Carros</item>

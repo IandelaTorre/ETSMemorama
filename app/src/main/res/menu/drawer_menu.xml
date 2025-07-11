@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_home" android:title="Inicio" android:icon="@drawable/baseline_home_24"/>
+    <item android:id="@+id/nav_end" android:title="Terminar juego" android:icon="@drawable/outline_backspace_24" />
+    <item android:id="@+id/nav_solution" android:title="Solución" android:icon="@drawable/outline_assignment_24" />
+    <item android:id="@+id/nav_score" android:title="Ver puntuación" android:icon="@drawable/outline_book_6_24" />
+    <item android:id="@+id/nav_backup" android:title="Respaldo y restauración" android:icon="@drawable/outline_backup_24" />
+    <item android:id="@+id/nav_exit" android:title="Salir" android:icon="@drawable/outline_block_24"/>
+</menu>
