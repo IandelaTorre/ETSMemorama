@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.memorama.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
@@ -17,9 +16,8 @@ class GameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentGameBinding.inflate(inflater, container, false)
-        // this creates a vertical layout Manager
+        // this creates a horizontal layout Manager
         binding.recyclerview.layoutManager = GridLayoutManager(context, 4)
 
         // ArrayList of class ItemsViewModel
@@ -35,6 +33,14 @@ class GameFragment : Fragment() {
         // Setting the Adapter with the recyclerview
         binding.recyclerview.adapter = adapter
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val gameSize = GameFragmentArgs.fromBundle(requireArguments()).size
+        val gameTheme = GameFragmentArgs.fromBundle(requireArguments()).theme
+        binding.tvTime.text = gameSize
+        binding.tvMovements.text = gameTheme
     }
 
 }

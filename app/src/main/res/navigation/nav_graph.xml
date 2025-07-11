@@ -26,7 +26,14 @@
         android:id="@+id/gameFragment"
         android:name="com.example.memorama.GameFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_game" />
+        tools:layout="@layout/fragment_game" >
+        <argument
+            android:name="size"
+            app:argType="string" />
+        <argument
+            android:name="theme"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.memorama.HomeFragment"
