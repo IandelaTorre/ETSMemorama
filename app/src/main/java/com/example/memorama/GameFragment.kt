@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memorama.databinding.FragmentGameBinding
 
@@ -85,6 +88,9 @@ class GameFragment : Fragment() {
                     secondCard.isMatched = true
                     selectedIndex1 = null
                     selectedIndex2 = null
+                    if (cards.all { it.isMatched }) {
+                        showWinDialog()
+                    }
                 } else {
                     handler.postDelayed({
                         firstCard.isFlipped = false
@@ -124,6 +130,26 @@ class GameFragment : Fragment() {
             else -> listOf(R.drawable.ic_default_card)
         }
     }
+
+    private fun showWinDialog() {
+        val title = (requireActivity() as AppCompatActivity).supportActionBar?.title?.toString()
+        val userName = title?.substringAfter("Hola, ") ?: "Jugador"
+
+        val message = "¡¡Felicidades $userName!!\nTerminaste el juego en un tiempo de $secondsElapsed segundos y $movements movimientos."
+
+        handler.removeCallbacks(timerRunnable)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Juego finalizado")
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton("Volver") { dialog, _ ->
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+            .show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

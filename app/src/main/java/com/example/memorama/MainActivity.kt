@@ -55,8 +55,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Opcional: actualizar el nombre en el encabezado del menú lateral
-        val headerView = navView.getHeaderView(0)
+        val headerView = binding.navView.getHeaderView(0)
         val headerTextView = headerView.findViewById<TextView>(R.id.header_username)
         headerTextView.text = userName
 
