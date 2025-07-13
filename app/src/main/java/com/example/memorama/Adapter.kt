@@ -7,35 +7,36 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-    class Adapter(private val list: List<Item>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(
+    private val items: List<Item>,
+    private val onCardClick: (Int) -> Unit
+) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
-        // create new views
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            // inflates the card_view_design view
-            // that is used to hold list item
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.card_view_design, parent, false)
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imgCard: ImageView = itemView.findViewById(R.id.ivCard)
 
-            return ViewHolder(view)
-        }
-
-        // binds the list items to a view
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-            val item = list[position]
-
-            // sets the image to the imageview from our itemHolder class
-            holder.imageView.setImageResource(item.image)
-
-        }
-
-        // return the number of the items in the list
-        override fun getItemCount(): Int {
-            return list.size
-        }
-
-        // Holds the views for adding it to image and text
-        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val imageView: ImageView = itemView.findViewById(R.id.imageview)
+        init {
+            itemView.setOnClickListener {
+                onCardClick(adapterPosition)
+            }
         }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.card_view_design, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = items[position]
+
+        if (item.isFlipped || item.isMatched) {
+            holder.imgCard.setImageResource(item.imageResId)
+        } else {
+            holder.imgCard.setImageResource(R.drawable.ic_card_face_down)
+        }
+    }
+
+    override fun getItemCount(): Int = items.size
+}
