@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnGoDetails.setOnClickListener {
             if (binding.etName.text.toString().isEmpty()) {
-                Toast.makeText(context, "@string/enter_name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.enter_name, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val homeFragmentDirections =

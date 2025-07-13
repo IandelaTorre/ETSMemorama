@@ -22,9 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
 
-    // Puedes obtener esto desde SharedPreferences o alguna fuente dinámica
-    private val userName = "Ian Pérez"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,10 +51,6 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
-        val headerView = binding.navView.getHeaderView(0)
-        val headerTextView = headerView.findViewById<TextView>(R.id.header_username)
-        headerTextView.text = userName
 
         // Manejo de clics del menú lateral
         navView.setNavigationItemSelectedListener { menuItem ->
