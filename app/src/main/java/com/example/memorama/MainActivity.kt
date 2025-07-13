@@ -11,6 +11,8 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.memorama.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
@@ -54,6 +56,9 @@ class MainActivity : AppCompatActivity() {
 
         // Manejo de clics del menú lateral
         navView.setNavigationItemSelectedListener { menuItem ->
+            val navController = supportFragmentManager
+                .findFragmentById(R.id.nav_host_fragment)
+                ?.findNavController()
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show()
@@ -65,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Ver solucion", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_score -> {
-                    Toast.makeText(this, "Ver puntuación", Toast.LENGTH_SHORT).show()
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_statsFragment)
                 }
                 R.id.nav_backup -> {
                     Toast.makeText(this, "Respaldo y restauración", Toast.LENGTH_SHORT).show()

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stats"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:typeface="monospace"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp" />
+</ScrollView>
