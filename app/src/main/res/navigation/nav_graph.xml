@@ -10,6 +10,9 @@
         android:name="com.example.memorama.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <action
+        android:id="@+id/action_global_statsFragment"
+        app:destination="@id/statsFragment" />
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.memorama.DetailFragment"
@@ -43,4 +46,9 @@
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.memorama.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
 </navigation>

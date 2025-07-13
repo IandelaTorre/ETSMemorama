@@ -26,6 +26,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memorama.databinding.FragmentGameBinding
+import com.example.memorama.db.GameStatsRepository
 
 class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
@@ -148,6 +149,7 @@ class GameFragment : Fragment() {
     }
 
     private fun showLoseDialog() {
+        saveGameResult(false)
         AlertDialog.Builder(requireContext())
             .setTitle("¡Tiempo agotado!")
             .setMessage("Se terminó el tiempo. Intenta nuevamente.")
@@ -181,6 +183,7 @@ class GameFragment : Fragment() {
         val message = "¡¡Felicidades $userName!!\nTerminaste el juego en un tiempo de $secondsElapsed segundos y $movements movimientos."
 
         sendWinNotification(userName)
+        saveGameResult(true)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Juego finalizado")
@@ -192,6 +195,29 @@ class GameFragment : Fragment() {
             }
             .show()
     }
+
+    private fun saveGameResult(win: Boolean) {
+        val title = (requireActivity() as AppCompatActivity).supportActionBar?.title?.toString()
+        val userName = title?.substringAfter("Hola, ") ?: "Jugador"
+        val theme = GameFragmentArgs.fromBundle(requireArguments()).theme
+        val size = GameFragmentArgs.fromBundle(requireArguments()).size
+
+        val minutes = (timeRemainingMillis / 1000) / 60
+        val seconds = (timeRemainingMillis / 1000) % 60
+        val formattedTime = String.format("%02d:%02d", minutes, seconds)
+
+        val repository = GameStatsRepository(requireContext())
+        repository.insertGameStat(
+            name = userName,
+            theme = theme,
+            sizeMap = size,
+            time = formattedTime,
+            movements = movements.toString(),
+            endGame = true,
+            winGame = win
+        )
+    }
+
 
     private fun sendWinNotification(userName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
