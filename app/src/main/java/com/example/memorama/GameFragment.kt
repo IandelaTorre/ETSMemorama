@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
@@ -43,13 +44,8 @@ class GameFragment : Fragment() {
     private var secondsElapsed = 0
 
     private val handler = Handler(Looper.getMainLooper())
-    private val timerRunnable = object : Runnable {
-        override fun run() {
-            secondsElapsed++
-            binding.tvTime.text = "Tiempo: ${secondsElapsed}s"
-            handler.postDelayed(this, 1000)
-        }
-    }
+    private lateinit var countDownTimer: CountDownTimer
+    private var timeRemainingMillis: Long = 15 * 60 * 1000L // 15 minutos en milisegundos
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +59,7 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requestNotificationPermission()
         createNotificationChannel()
+        startCountdownTimer()
 
         val gameSize = GameFragmentArgs.fromBundle(requireArguments()).size
         val gameTheme = GameFragmentArgs.fromBundle(requireArguments()).theme
@@ -126,15 +123,42 @@ class GameFragment : Fragment() {
         binding.recyclerview.adapter = adapter
 
         updateMovements()
-        handler.post(timerRunnable)
 
         // Detener temporizador al salir
         viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) {
-                handler.removeCallbacks(timerRunnable)
+                countDownTimer.cancel()
             }
         })
     }
+
+    private fun startCountdownTimer() {
+        countDownTimer = object : CountDownTimer(timeRemainingMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeRemainingMillis = millisUntilFinished
+                val minutes = (millisUntilFinished / 1000) / 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                binding.tvTime.text = String.format("Tiempo: %02d:%02d", minutes, seconds)
+            }
+
+            override fun onFinish() {
+                showLoseDialog()
+            }
+        }.start()
+    }
+
+    private fun showLoseDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("¡Tiempo agotado!")
+            .setMessage("Se terminó el tiempo. Intenta nuevamente.")
+            .setCancelable(false)
+            .setPositiveButton("Volver a intentar") { dialog, _ ->
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+            .show()
+    }
+
 
     private fun updateMovements() {
         binding.tvMovements.text = "Movimientos: $movements"
@@ -150,14 +174,13 @@ class GameFragment : Fragment() {
     }
 
     private fun showWinDialog() {
+        countDownTimer.cancel()
         val title = (requireActivity() as AppCompatActivity).supportActionBar?.title?.toString()
         val userName = title?.substringAfter("Hola, ") ?: "Jugador"
 
         val message = "¡¡Felicidades $userName!!\nTerminaste el juego en un tiempo de $secondsElapsed segundos y $movements movimientos."
 
         sendWinNotification(userName)
-
-        handler.removeCallbacks(timerRunnable)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Juego finalizado")
@@ -247,7 +270,7 @@ class GameFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        handler.removeCallbacks(timerRunnable)
+        countDownTimer.cancel()
         _binding = null
     }
 }
