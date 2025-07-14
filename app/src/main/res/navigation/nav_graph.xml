@@ -18,7 +18,7 @@
         app:destination="@id/homeFragment" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.memorama.DetailFragment"
+        android:name="com.example.memorama.ui.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.memorama.GameFragment"
+        android:name="com.example.memorama.ui.game.GameFragment"
         android:label="fragment_game"
         tools:layout="@layout/fragment_game" >
         <argument
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.memorama.HomeFragment"
+        android:name="com.example.memorama.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -51,7 +51,12 @@
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
-        android:name="com.example.memorama.StatsFragment"
+        android:name="com.example.memorama.ui.stats.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/backupRestoreFragment"
+        android:name="com.example.memorama.ui.backup.BackupRestoreFragment"
+        android:label="fragment_backup_restore"
+        tools:layout="@layout/fragment_backup_restore" />
 </navigation>

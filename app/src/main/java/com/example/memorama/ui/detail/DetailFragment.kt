@@ -1,4 +1,4 @@
-package com.example.memorama
+package com.example.memorama.ui.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.memorama.databinding.FragmentDetailBinding
 import androidx.navigation.findNavController
+import com.example.memorama.R
 
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
