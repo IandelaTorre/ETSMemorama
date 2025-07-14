@@ -20,4 +20,6 @@
         <item>4x4</item>
         <item>4x5</item>
     </string-array>
+    <string name="default_web_client_id">996226115429-fep1g62d6o457jse7dbkov7j53inqqk1.apps.googleusercontent.com</string>
+
 </resources>

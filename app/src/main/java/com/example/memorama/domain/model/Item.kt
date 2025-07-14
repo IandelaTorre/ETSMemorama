@@ -1,4 +1,4 @@
-package com.example.memorama
+package com.example.memorama.domain.model
 
 data class Item(
     val imageResId: Int,

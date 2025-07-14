@@ -1,4 +1,4 @@
-package com.example.memorama
+package com.example.memorama.ui.game
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -23,8 +23,12 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.memorama.ui.game.adapter.Adapter
+import com.example.memorama.ui.core.GameEndHandler
+import com.example.memorama.domain.model.Item
+import com.example.memorama.R
 import com.example.memorama.databinding.FragmentGameBinding
-import com.example.memorama.db.GameStatsRepository
+import com.example.memorama.data.db.GameStatsRepository
 
 class GameFragment : Fragment(), GameEndHandler {
     private var _binding: FragmentGameBinding? = null
@@ -40,7 +44,6 @@ class GameFragment : Fragment(), GameEndHandler {
     private var selectedIndex1: Int? = null
     private var selectedIndex2: Int? = null
     private var movements = 0
-    private var secondsElapsed = 0
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var countDownTimer: CountDownTimer
@@ -180,9 +183,42 @@ class GameFragment : Fragment(), GameEndHandler {
 
     private fun getThemeCards(theme: String): List<Int> {
         return when (theme.lowercase()) {
-            "navegadores" -> listOf(R.drawable.ic_brave, R.drawable.ic_chrome, R.drawable.ic_duckduckgo, R.drawable.ic_edge, R.drawable.ic_firefox, R.drawable.ic_maxthon, R.drawable.ic_opera, R.drawable.ic_safari, R.drawable.ic_torch, R.drawable.ic_vivaldi)
-            "carros" -> listOf(R.drawable.ic_bora, R.drawable.ic_cupra, R.drawable.ic_cybertruck, R.drawable.ic_gtr, R.drawable.ic_honda, R.drawable.ic_jetta, R.drawable.ic_mustang, R.drawable.ic_prius, R.drawable.ic_ram, R.drawable.ic_tsuru)
-            "bebidas" -> listOf(R.drawable.ic_bacardi, R.drawable.ic_corona, R.drawable.ic_don_julio, R.drawable.ic_four, R.drawable.ic_jimador, R.drawable.ic_jose_cuervo, R.drawable.ic_kosako, R.drawable.ic_rancho, R.drawable.ic_smirnoff, R.drawable.ic_tecate)
+            "navegadores" -> listOf(
+                R.drawable.ic_brave,
+                R.drawable.ic_chrome,
+                R.drawable.ic_duckduckgo,
+                R.drawable.ic_edge,
+                R.drawable.ic_firefox,
+                R.drawable.ic_maxthon,
+                R.drawable.ic_opera,
+                R.drawable.ic_safari,
+                R.drawable.ic_torch,
+                R.drawable.ic_vivaldi
+            )
+            "carros" -> listOf(
+                R.drawable.ic_bora,
+                R.drawable.ic_cupra,
+                R.drawable.ic_cybertruck,
+                R.drawable.ic_gtr,
+                R.drawable.ic_honda,
+                R.drawable.ic_jetta,
+                R.drawable.ic_mustang,
+                R.drawable.ic_prius,
+                R.drawable.ic_ram,
+                R.drawable.ic_tsuru
+            )
+            "bebidas" -> listOf(
+                R.drawable.ic_bacardi,
+                R.drawable.ic_corona,
+                R.drawable.ic_don_julio,
+                R.drawable.ic_four,
+                R.drawable.ic_jimador,
+                R.drawable.ic_jose_cuervo,
+                R.drawable.ic_kosako,
+                R.drawable.ic_rancho,
+                R.drawable.ic_smirnoff,
+                R.drawable.ic_tecate
+            )
             else -> listOf(R.drawable.ic_default_card)
         }
     }
@@ -192,7 +228,11 @@ class GameFragment : Fragment(), GameEndHandler {
         val title = (requireActivity() as AppCompatActivity).supportActionBar?.title?.toString()
         val userName = title?.substringAfter("Hola, ") ?: "Jugador"
 
-        val message = "¡¡Felicidades $userName!!\nTerminaste el juego en un tiempo de $secondsElapsed segundos y $movements movimientos."
+        val minutes = (timeRemainingMillis / 1000) / 60
+        val seconds = (timeRemainingMillis / 1000) % 60
+        val formattedTime = String.format("%02d:%02d", minutes, seconds)
+
+        val message = "¡¡Felicidades $userName!!\nTerminaste el juego en un tiempo de $formattedTime segundos y $movements movimientos."
 
         sendWinNotification(userName)
         saveGameResult(win = true, end = true)
@@ -299,7 +339,6 @@ class GameFragment : Fragment(), GameEndHandler {
 
         if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Permiso concedido (puedes mostrar un Toast o registrar algo si quieres)
             } else {
                 Toast.makeText(requireContext(), "No se podrán mostrar notificaciones", Toast.LENGTH_SHORT).show()
             }

@@ -1,4 +1,4 @@
-package com.example.memorama
+package com.example.memorama.ui.core
 
 interface GameEndHandler {
     fun onGameEndEarly()

@@ -1,13 +1,12 @@
-package com.example.memorama
+package com.example.memorama.ui.stats
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.memorama.databinding.FragmentStatsBinding
-import com.example.memorama.db.GameStatsDatabaseHelper
+import com.example.memorama.data.db.GameStatsDatabaseHelper
 
 class StatsFragment : Fragment() {
 

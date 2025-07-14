@@ -1,11 +1,12 @@
-package com.example.memorama
+package com.example.memorama.ui.game.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.memorama.domain.model.Item
+import com.example.memorama.R
 
 class Adapter(
     private val items: List<Item>,

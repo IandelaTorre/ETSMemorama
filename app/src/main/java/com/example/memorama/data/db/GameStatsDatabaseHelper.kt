@@ -1,4 +1,4 @@
-package com.example.memorama.db
+package com.example.memorama.data.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
