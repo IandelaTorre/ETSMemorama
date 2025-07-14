@@ -13,6 +13,9 @@
     <action
         android:id="@+id/action_global_statsFragment"
         app:destination="@id/statsFragment" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment" />
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.memorama.DetailFragment"

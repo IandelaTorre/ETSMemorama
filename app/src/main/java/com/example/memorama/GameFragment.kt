@@ -1,6 +1,5 @@
 package com.example.memorama
 
-import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -17,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -28,7 +26,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memorama.databinding.FragmentGameBinding
 import com.example.memorama.db.GameStatsRepository
 
-class GameFragment : Fragment() {
+class GameFragment : Fragment(), GameEndHandler {
     private var _binding: FragmentGameBinding? = null
     private val binding get() = _binding!!
 
@@ -46,7 +44,21 @@ class GameFragment : Fragment() {
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var countDownTimer: CountDownTimer
-    private var timeRemainingMillis: Long = 15 * 60 * 1000L // 15 minutos en milisegundos
+    private var timeRemainingMillis: Long = 15 * 60 * 1000L
+
+    override fun onGameEndEarly() {
+        countDownTimer.cancel()
+        saveGameResult(win = false, end = false)
+        findNavController().popBackStack()
+    }
+
+    override fun onRevealSolution() {
+        countDownTimer.cancel()
+        cards.forEach { it.isFlipped = true }
+        adapter.notifyDataSetChanged()
+        saveGameResult(win = true, end = false)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -149,7 +161,7 @@ class GameFragment : Fragment() {
     }
 
     private fun showLoseDialog() {
-        saveGameResult(false)
+        saveGameResult(win = false, end = true)
         AlertDialog.Builder(requireContext())
             .setTitle("¡Tiempo agotado!")
             .setMessage("Se terminó el tiempo. Intenta nuevamente.")
@@ -183,7 +195,7 @@ class GameFragment : Fragment() {
         val message = "¡¡Felicidades $userName!!\nTerminaste el juego en un tiempo de $secondsElapsed segundos y $movements movimientos."
 
         sendWinNotification(userName)
-        saveGameResult(true)
+        saveGameResult(win = true, end = true)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Juego finalizado")
@@ -196,7 +208,7 @@ class GameFragment : Fragment() {
             .show()
     }
 
-    private fun saveGameResult(win: Boolean) {
+    private fun saveGameResult(win: Boolean, end: Boolean) {
         val title = (requireActivity() as AppCompatActivity).supportActionBar?.title?.toString()
         val userName = title?.substringAfter("Hola, ") ?: "Jugador"
         val theme = GameFragmentArgs.fromBundle(requireArguments()).theme
@@ -213,7 +225,7 @@ class GameFragment : Fragment() {
             sizeMap = size,
             time = formattedTime,
             movements = movements.toString(),
-            endGame = true,
+            endGame = end,
             winGame = win
         )
     }
