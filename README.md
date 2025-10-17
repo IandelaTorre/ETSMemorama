@@ -1,5 +1,3 @@
----
-
 # Memorama (Clean Architecture · Navigation Controller · Conexión con Drive · View Binding · Persistencia de datos)
 
 **Memorama** es una aplicación construida con **Kotlin**, pensada como una base limpia, escalable y profesional para el desarrollo de proyectos.
