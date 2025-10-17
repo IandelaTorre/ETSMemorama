@@ -41,11 +41,11 @@ Demo de la app:
 
 ## Estructura del proyecto (resumen) 🗂
 
-ETSMemorama/
-├── data/db # Persistencia de datos SQLite
-├── domain/model # Modelo de carta
-├── ui/ # Pantallas y lógica
-└── MainActivity # Contenedor principal
+ETSMemorama/  
+├── data/db # Persistencia de datos SQLite  
+├── domain/model # Modelo de carta  
+├── ui/ # Pantallas y lógica  
+└── MainActivity # Contenedor principal  
 
 ---
 
