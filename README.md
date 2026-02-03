@@ -5,7 +5,29 @@ El objetivo es crear una aplicación donde se pueda jugar al Memorama, un juego 
 
 Demo de la app:
 
-* [demo]()
+- [demo](https://youtube.com/shorts/w3EKX6y9tpE)
+
+### Screens Overview
+
+**Login & Authentication**
+
+Enter name:  
+<img width="270" height="550" alt="enter-name" src="https://github.com/user-attachments/assets/ab814d7e-3dc9-454f-8347-43dd63845163" />
+
+Game configuration:  
+<img width="270" height="550" alt="setup" src="https://github.com/user-attachments/assets/7ab67ce9-3c77-4bef-89c5-cc967cfb7e13" />
+
+Game:  
+<img width="270" height="550" alt="game" src="https://github.com/user-attachments/assets/0a2923fd-c6be-4521-805d-e9ec4c1a75ed" />
+
+Winning game:  
+<img width="270" height="550" alt="winning" src="https://github.com/user-attachments/assets/1af47e3e-b1b7-4f3f-b076-096964694f45" />
+
+Sidebar:  
+<img width="270" height="550" alt="sidebar" src="https://github.com/user-attachments/assets/7296608a-1fc8-4cdd-ad96-9cfddfe147af" />
+
+Attempts:  
+<img width="270" height="550" alt="attempts" src="https://github.com/user-attachments/assets/b23989b7-3cff-4eb6-9183-cb186f1050ee" />
 
 ---
 
